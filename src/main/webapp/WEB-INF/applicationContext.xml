@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ This program is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
+ 
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+ 
+ You should have received a copy of the GNU General Public License
+ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ 
+ copyright (C) 2012 nambi sankaran.
+-->
+
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns:tx="http://www.springframework.org/schema/tx"
+         xmlns:context="http://www.springframework.org/schema/context"
+         xsi:schemaLocation="
+           http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+           http://www.springframework.org/schema/tx
+           http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+           http://www.springframework.org/schema/context
+           http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+
+    <!-- the parent application context definition for the springapp application -->
+
+
+    <context:annotation-config/>
+    
+    <!-- TODO: change the package names -->
+    <context:component-scan base-package="org.runway" />
+
+    <context:property-placeholder location="classpath:jdbc.properties" />
+
+
+    <!-- database must be started first -->
+    <!-- 
+    <bean id="dataBase"
+          scope="singleton"
+          class="ServerBean"
+          lazy-init="false"
+          init-method="initialize"
+          destroy-method="shutdown">
+         <property name="dataSource"><ref local="jdbcDataSource"/></property>
+         <property name="serverProperties">
+             <props>
+                 <prop key="server.port">9101</prop>
+                 <prop key="server.database.0">emarket.db</prop>
+                 <prop key="server.dbname.0">shark</prop>
+             </props>
+         </property>
+    </bean>
+     -->
+
+	<!-- This dbcp based Connection pooling : DONT use -->
+	<!-- 
+    <bean id="jdbcDataSource"
+          class="org.apache.commons.dbcp.BasicDataSource"
+          destroy-method="close">
+        <property name="driverClassName" value="${jdbc.driverClassName}"/>
+        <property name="url" value="${jdbc.url}"/>
+        <property name="username" value="${jdbc.username}"/>
+        <property name="password" value="${jdbc.password}"/>
+    </bean>
+     -->
+
+
+ 
+    <bean id="jdbcDataSource"
+          class="com.mchange.v2.c3p0.ComboPooledDataSource"
+          destroy-method="close">
+        <property name="driverClass" value="${jdbc.driverClassName}" />
+        <property name="jdbcUrl" value="${jdbc.url}"/>
+        <property name="user" value="${jdbc.username}"/>
+        <property name="password" value="${jdbc.password}"/>
+        <property name="idleConnectionTestPeriod" value="600"/> <!--in seconds-->
+    </bean>
+     
+    
+
+	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+			<property name="javaMailProperties">
+				<props>
+						<prop key="mail.smtps.auth">false</prop>
+						<prop key="mail.smtp.starttls.enable">true</prop>
+				</props>
+			</property>
+			<property name="username"  value="email_id@email.address" />
+			<property name="password"  value="email_password" />
+			<property name="port"><value>587</value></property>
+			<property name="protocol"><value>smtp</value></property>
+			<property name="host" value="email_server"/>			
+	</bean>
+	
+	<bean id="templateMessage" class="org.springframework.mail.SimpleMailMessage">
+		  <property name="from" value="admin@yoursite.com"/>
+		  <!-- 
+		  <property name="subject" value="order"/>
+		   -->
+	</bean>
+
+ <bean id="velocityEngine" class="org.springframework.ui.velocity.VelocityEngineFactoryBean">
+      <property name="velocityProperties">
+         <value>
+            resource.loader=class
+            class.resource.loader.class=org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+         </value>
+      </property>
+   </bean>	
+    
+    <!-- This tells Spring to activate annotation-driven transactions --> 
+    <tx:annotation-driven transaction-manager="txManager"/>
+
+    
+    <bean id="txManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="jdbcDataSource"/>
+	</bean>
+
+    <bean id="hibernateSessionFactory"
+                class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean" >
+                <property name="dataSource" ref="jdbcDataSource" />
+                <property name="annotatedClasses">
+                    <list>
+                    	<value>org.runway.employees.domain.Employee</value>
+                    	<value>org.runway.sequencenumber.SequenceNumber</value>
+                    	<value>org.runway.users.domain.User</value>
+                    </list>
+                </property>
+                <property name="hibernateProperties">
+                    <props>
+                        <prop key="hibernate.dialect" >org.hibernate.dialect.MySQL5Dialect</prop>
+                        <prop key="hibernate.show_sql">true</prop>
+                    </props>
+                </property>
+    </bean>
+ 
+ 	<bean id="validator"
+      class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean"/>  
+ 
+	<bean id="mailSenderTaskExecutor" class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor">
+		  <property name="corePoolSize" value="5" />
+		  <property name="maxPoolSize" value="10" />
+		  <property name="queueCapacity" value="50" />
+	</bean>	
+	
+	<bean id="mailSenderExecutor" class="org.runway.system.service.MailSenderExecutor" />
+
+	
+	<bean id="tilesConfigurer" class="org.springframework.web.servlet.view.tiles2.TilesConfigurer">
+	    <property name="definitions">
+	        <list>
+	            <value>/WEB-INF/tilesConfiguration.xml</value>
+	        </list>
+	    </property>
+	</bean>
+	
+	<!--  Configuration needed for Quartz Schedulers -->
+	<bean id="runMeTask" class="org.runway.system.scheduler.RunMeTask" />
+	
+	<bean name="runMeJob" class="org.springframework.scheduling.quartz.JobDetailBean">
+		<property name="jobClass" value="org.runway.system.scheduler.RunMeJob" />
+		<property name="jobDataAsMap">
+			<map>
+				<entry key="runMeTask" value-ref="runMeTask" />
+			</map>
+		</property>
+	</bean>
+	
+	<bean name="sendEmailDigestsJob" class="org.springframework.scheduling.quartz.JobDetailBean">
+		<property name="jobClass"  value="org.runway.system.scheduler.EmailDigestJob" />
+		<!-- 
+		<property name="jobDataAsMap">
+			<map>
+				<entry key="groupEmailDigestServiceImpl" value-ref="GroupEmailDigestServiceImpl"></entry>
+			</map>
+		</property>
+		 -->
+	</bean>
+	
+	<!-- Cron Trigger -->
+	<bean id="cronTrigger"
+		class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="runMeJob" />
+        <property name="cronExpression" value="0 10 2 * * ?" />
+	</bean>
+	
+	<bean id="emailDigestCronTrigger" 
+		class="org.springframework.scheduling.quartz.CronTriggerBean" >
+			<property name="jobDetail" ref="sendEmailDigestsJob" />
+			<property name="cronExpression" value="0 10 2 * * ?" />
+	</bean>
+	
+	<bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+		<property name="jobDetails">
+			<list>
+				<ref bean="runMeJob" />
+				<ref bean="sendEmailDigestsJob" />
+			</list>
+		</property>
+		<property name="triggers">
+			<list>
+				<ref bean="cronTrigger" />
+				<ref bean="emailDigestCronTrigger" />
+			</list>
+		</property>
+	</bean>
+
+    
+</beans>

@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ This program is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
+ 
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+ 
+ You should have received a copy of the GNU General Public License
+ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ 
+ copyright (C) 2012 nambi sankaran.
+-->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+	http://www.springframework.org/schema/context
+	http://www.springframework.org/schema/context/spring-context-3.0.xsd
+	http://www.springframework.org/schema/mvc
+    http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
+
+
+	<bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping">
+ 	</bean>
+	<bean class="org.springframework.web.servlet.mvc.SimpleControllerHandlerAdapter" />
+	
+	<mvc:interceptors>
+		<bean class="org.runway.web.utils.RequestInterceptor"></bean>
+	</mvc:interceptors>
+	
+
+	<!-- Activates @Autowired for ImageController -->
+	<!-- we don't use annotations for web mvc only for middle tier -->
+	<!-- to auto wire middle tier beans, annotations are enabled-->
+	<context:annotation-config/>
+	<context:component-scan base-package="org.runway.web" />
+
+	<bean class="org.springframework.web.servlet.view.UrlBasedViewResolver">
+		<property name="viewClass" value="org.springframework.web.servlet.view.JstlView"></property>
+		<property name="prefix" value="/jsp/pages/"></property>
+		<property name="suffix" value=".jsp"></property>
+	</bean>
+	
+	 <bean id="requestInterceptor"
+          class="org.runway.web.utils.RequestInterceptor" />
+	
+	<mvc:annotation-driven />
+	
+	<bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
+		<property name="messageConverters">
+			<list>
+				<ref bean="jsonConverter" />
+				<!-- <ref bean="marshallingConverter" />
+				<ref bean="atomConverter" /> -->
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="jsonConverter" class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter">
+		<property name="supportedMediaTypes" value="application/json"></property>
+	</bean>
+	
+	<!-- 
+	<bean name="/home"
+		id="homePageController"
+		class="com.peoplebees.web.controllers.HomePageController"/>
+
+	<bean name="/myhome"
+		id="myHomePageController"
+		class="com.peoplebees.web.controllers.MyHomePageController">
+	</bean>
+	-->
+	
+	<!-- Users : login, signup, profile related -->
+	<!-- 
+	<bean name="/"
+		id="loginController"
+		class="com.peoplebees.web.controllers.user.LoginController">
+		<property name="formView" value="users/loginForm"/>
+		<property name="successView" value="account"/>
+		<property name="commandName" value="user" />
+		<property name="commandClass" value="com.peoplebees.user.domain.User"/>
+		<property name="validator">
+			<bean class="com.peoplebees.web.controllers.user.LoginFormValidator"/>
+		</property>
+	</bean>
+
+	<bean name="/logout"
+		id="logoutController"
+		class="com.peoplebees.web.controllers.user.LogoutController"/>
+
+	<bean name="/registerUser"
+		id="registerUserController"
+		class="com.peoplebees.web.controllers.user.RegisterUserController">
+		<property name="formView" value="users/registerUserForm"/>
+		<property name="successView" value="/userRegistered"/>
+		<property name="commandName" value="registerUser" />
+		<property name="commandClass" value="com.peoplebees.web.controllers.user.RegisterUser"/>
+		<property name="validator">
+			<bean class="com.peoplebees.web.controllers.user.RegisterUserFormValidator"/>
+		</property>
+	</bean>
+	
+	<bean name="/userRegistered"
+			id="registerUserSuccessController"
+			class="com.peoplebees.web.controllers.user.RegisterUserSuccessController" />
+ 
+	<bean name="/editprofile"
+		id="editProfilePageController"
+		class="com.peoplebees.web.controllers.user.EditProfilePageController">
+				<property name="formView" value="users/editprofileForm"/>
+				<property name="successView" value="users/profileUpdated"/>
+				<property name="commandName" value="userProfile" />
+				<property name="commandClass" value="com.peoplebees.web.controllers.user.UserProfileData"/>
+	</bean>
+	
+	<bean name="/users"
+				id="userPageController"
+				class="com.peoplebees.web.controllers.user.UserPageController" />
+
+	
+	<bean name="/editpromotionSuccess"
+		id="editPromotionSuccessController"
+		class="com.peoplebees.web.controllers.marketing.EditPromotionSuccessController"/>
+
+
+	<bean name="/error"
+		id="emarketErrorPageController"
+		class="com.peoplebees.web.controllers.EmarketErrorPageController">
+	</bean>	
+     -->
+
+	<bean id="simpleUrlMapping"
+		class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+		<property name="mappings">
+			<props>
+			
+				<!-- 
+				<prop key="/">homePageController</prop>			
+				<prop key="/home">homePageController</prop>
+				<prop key="/myhome">myHomePageController</prop>
+				-->
+
+				
+				<!-- login related -->
+				<!-- 
+				<prop key="/login">loginController</prop>
+				<prop key="/">loginController</prop>
+				<prop key="/home">loginController</prop>
+				
+				<prop key="/signup">registerUserController</prop>
+				<prop key="/logout">logoutController</prop>
+				<prop key="/userRegistered">registerUserSuccessController</prop>
+				-->
+
+				<!--  users  -->
+				<!-- 
+				<prop key="/editprofile">editProfilePageController</prop>
+				<prop key="/users/*">userPageController</prop>
+				<prop key="/myprofile">myProfileController</prop>
+				-->
+				
+				<!--  static pages help/information related -->
+				<!-- 
+				<prop key="/contactus">contactUsController</prop>
+				<prop key="/aboutus">aboutUsController</prop>
+				<prop key="/tos">tosController</prop>
+				 -->
+				
+				<!--  error page -->
+				<!-- 
+				<prop key="/error">emarketErrorPageController</prop>
+				 -->
+
+			</props>
+		</property>
+	</bean>
+
+	<bean class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+		<property name="exceptionMappings">
+			<map>
+				<entry key="DataAccessException" value="/common/error" />
+			</map>
+		</property>
+		<property name="defaultErrorView" value="/common/error"/>
+	</bean>
+
+
+
+	<!-- Enable annotation-based validation using Bean Validation Framework -->
+	<!-- Using these instead of vld namespace to prevent Eclipse from complaining -->
+	<!--
+	<bean id="configurationLoader"
+		class="org.springmodules.validation.bean.conf.loader.annotation.AnnotationBeanValidationConfigurationLoader"/>
+	<bean id="validator" class="org.springmodules.validation.bean.BeanValidator"
+		p:configurationLoader-ref="configurationLoader"/>
+	-->    
+
+</beans>
+

@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ This program is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
+ 
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+ 
+ You should have received a copy of the GNU General Public License
+ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ 
+ copyright (C) 2012 nambi sankaran.
+-->
+
+	<!--
+		- Application context containing authentication, channel - security
+		and web URI beans. - - Only used by "filter" artifact. -
+	-->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:security="http://www.springframework.org/schema/security" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+			http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+                        http://www.springframework.org/schema/security 
+                        http://www.springframework.org/schema/security/spring-security-3.0.3.xsd">
+
+
+	<security:http auto-config='true'>
+		<security:intercept-url pattern="/" access="IS_AUTHENTICATED_ANONYMOUSLY" requires-channel="any" />
+		<security:intercept-url pattern="/css/**" access="IS_AUTHENTICATED_ANONYMOUSLY" requires-channel="any" />
+		<security:intercept-url pattern="/js/**" access="IS_AUTHENTICATED_ANONYMOUSLY" requires-channel="any" />
+		<security:intercept-url pattern="/images/**" access="IS_AUTHENTICATED_ANONYMOUSLY" requires-channel="any" />
+		<security:intercept-url pattern="/sitemap.xml" access="IS_AUTHENTICATED_ANONYMOUSLY" requires-channel="any" />
+		<security:intercept-url pattern="/signup" access="IS_AUTHENTICATED_ANONYMOUSLY" requires-channel="https" />
+		<security:intercept-url pattern="/userRegistered" access="IS_AUTHENTICATED_ANONYMOUSLY" requires-channel="any" />
+		<security:intercept-url pattern="/resetpassword" access="IS_AUTHENTICATED_ANONYMOUSLY" requires-channel="https" />
+		<security:intercept-url pattern="/resetRequestSuccess" access="IS_AUTHENTICATED_ANONYMOUSLY" requires-channel="any" />
+		<security:intercept-url pattern="/passwordreset" access="IS_AUTHENTICATED_ANONYMOUSLY" requires-channel="https" />
+		<security:intercept-url pattern="/passwordresetSuccess" access="IS_AUTHENTICATED_ANONYMOUSLY" requires-channel="https" />
+		<security:intercept-url pattern="/login*" access="IS_AUTHENTICATED_ANONYMOUSLY"  requires-channel="any" />
+		<security:intercept-url pattern="/j_spring_security_check" access="IS_AUTHENTICATED_ANONYMOUSLY"  requires-channel="https" />
+		<security:intercept-url pattern="/tos" access="IS_AUTHENTICATED_ANONYMOUSLY" requires-channel="any" />
+		<security:intercept-url pattern="/g/viewinvitation" access="IS_AUTHENTICATED_ANONYMOUSLY" requires-channel="any" />
+		<security:intercept-url pattern="/aboutus" access="IS_AUTHENTICATED_ANONYMOUSLY"  requires-channel="any" />
+		<security:intercept-url pattern="/contactus" access="IS_AUTHENTICATED_ANONYMOUSLY"  requires-channel="any" />
+		<security:intercept-url pattern="/rest/**" access="IS_AUTHENTICATED_ANONYMOUSLY"  requires-channel="any" />
+		<security:intercept-url pattern="/html/sample1.html**" access="IS_AUTHENTICATED_ANONYMOUSLY"  requires-channel="any" />
+		
+		<!-- 
+		<security:intercept-url pattern="/**" access="ROLE_USER,ROLE_ADMIN" requires-channel="any" />
+		 -->
+		<security:intercept-url pattern="/**" access="IS_AUTHENTICATED_ANONYMOUSLY" requires-channel="any" />
+		
+		<!-- 
+		<security:intercept-url pattern="/home" access="IS_AUTHENTICATED_ANONYMOUSLY" requires-channel="any" />
+		<security:intercept-url pattern="/home2" access="IS_AUTHENTICATED_ANONYMOUSLY" requires-channel="any" />
+		<security:intercept-url pattern="/search" access="IS_AUTHENTICATED_ANONYMOUSLY" requires-channel="any"  />
+		<security:intercept-url pattern="/searchresults" access="IS_AUTHENTICATED_ANONYMOUSLY" requires-channel="any" />
+		<security:intercept-url pattern="/g" access="IS_AUTHENTICATED_ANONYMOUSLY" requires-channel="any" />
+		<security:intercept-url pattern="/g/find*" access="IS_AUTHENTICATED_ANONYMOUSLY" requires-channel="any" />		
+		<security:intercept-url pattern="/p/**" access="IS_AUTHENTICATED_ANONYMOUSLY"  requires-channel="any" />
+		<security:intercept-url pattern="/c/**" access="IS_AUTHENTICATED_ANONYMOUSLY" requires-channel="any" />
+		<security:intercept-url pattern="/categories/**" access="IS_AUTHENTICATED_ANONYMOUSLY"  requires-channel="any" />
+		<security:intercept-url pattern="/reviewsforpost/**" access="IS_AUTHENTICATED_ANONYMOUSLY"  requires-channel="any" />
+		<security:intercept-url pattern="/users/**" access="IS_AUTHENTICATED_ANONYMOUSLY"  requires-channel="any" />
+		
+		 -->
+
+		<security:form-login login-page="/" 
+				authentication-failure-url="/?login_error=1" 
+				default-target-url="/home" />
+		<security:logout logout-success-url="/" />  
+		<security:anonymous />
+		<security:http-basic />
+		<security:logout />
+		<security:remember-me />
+	</security:http>
+
+	<!--
+		<authentication-provider> <user-service> <user name="jimi"
+		password="jimispassword" authorities="ROLE_USER, ROLE_ADMIN" /> <user
+		name="bob" password="bobspassword" authorities="ROLE_USER" />
+		</user-service> </authentication-provider>
+	-->
+	
+	<!-- Your application may use the StringDigester in several places,    --> 
+	<!-- like for example at new user sign-up.                             --> 
+	<bean id="standardStringDigester" class="org.jasypt.digest.StandardStringDigester" >
+		<property name="algorithm" value="SHA-1" />
+		<property name="iterations" value="10000" />
+		<property name="saltGenerator">
+			<bean id="zeroSaltGenerator" class="org.jasypt.salt.ZeroSaltGenerator"/>
+		</property>
+		<property name="saltSizeBytes" value="8"/>
+	</bean>
+	
+	<!-- This Spring Security-friendly PasswordEncoder implementation will -->
+	<!-- wrap the StringDigester instance so that it can be used from      -->
+	<!-- the security framework.                                           -->
+	<bean id="spring3PasswordEncoder" class="org.jasypt.spring.security3.PasswordEncoder">
+		<property name="stringDigester">
+			<ref bean="standardStringDigester" />
+		</property>
+	</bean>
+
+	
+	<security:authentication-manager  alias="authenticationManager">
+		<security:authentication-provider user-service-ref="myUserDetailsService" >
+			<security:password-encoder  ref="spring3PasswordEncoder"/>
+		</security:authentication-provider>
+	</security:authentication-manager>
+	
+
+	
+	<bean id="myUserDetailsService"  class="org.runway.users.service.SecurityUserDetailsServiceImpl">
+	</bean>	
+	
+		
+
+</beans>

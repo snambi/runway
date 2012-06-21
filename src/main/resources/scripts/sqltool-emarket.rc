@@ -1,0 +1,4 @@
+urlid localhost-sa
+url jdbc:hsqldb:hsql://localhost:9109/shark
+username sa
+password

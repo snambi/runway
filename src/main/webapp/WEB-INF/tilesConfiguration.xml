@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!--
+ This program is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
+ 
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+ 
+ You should have received a copy of the GNU General Public License
+ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ 
+ copyright (C) 2012 nambi sankaran.
+-->
+
+
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN"
+       "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+<tiles-definitions>
+    
+    <definition name="template" template="/jsp/templates/cafecoders-template.jsp">
+    	<put-attribute name="header" value="/jsp/templates/header.jsp" />
+    	<put-attribute name="leftnav" value="/jsp/templates/leftnav/leftnav.jsp" />
+    </definition>
+            
+    <definition name="homePage" extends="template">
+        <put-attribute name="body" value="/jsp/tilesPages/homePage.jsp"/>
+    </definition> 
+   
+ 	<definition name="findEmployeePage" extends="template">
+        <put-attribute name="body" value="/jsp/tilesPages/findEmployeePage.jsp"/>
+    </definition>    
+    
+    
+    <definition name="aboutPage" extends="template">
+        <put-attribute name="body" value="/jsp/tilesPages/aboutPage.jsp"/>
+    </definition>
+    
+    <definition name="errorPage" extends="template">
+        <put-attribute name="body" value="/jsp/tilesPages/errorPage.jsp"/>
+    </definition>
+  
+</tiles-definitions>

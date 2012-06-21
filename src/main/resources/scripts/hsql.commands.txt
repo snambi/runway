@@ -1,0 +1,26 @@
+# to start SQL Server in standalone mode
+# cd /src/main/resources
+# cp   /src/main/resources/scripts/sqltool-emarket.rc localhost-sa    $HOME/sqltool.rc
+#execute the following command  
+#################################
+# Unix/Linux
+#################################
+java -cp ~/.m2/repository/hsqldb/hsqldb/1.8.0.7/hsqldb-1.8.0.7.jar org.hsqldb.Server -port 9109 -trace true -silent false  -database.0 file:emarket.db -dbname.0 shark
+
+# to start SQL prompt
+java -jar ~/.m2/repository/hsqldb/hsqldb/1.8.0.7/hsqldb-1.8.0.7.jar  --rcFile ./sqltool-emarket.rc     localhost-sa
+
+# to execute SQL scripts
+java -jar ~/.m2/repository/hsqldb/hsqldb/1.8.0.7/hsqldb-1.8.0.7.jar  --rcFile ./sqltool-emarket.rc     localhost-sa  create_tables.sql
+
+
+#################################
+# Windows
+#################################
+java -cp "g:\Documents and Settings\username\.m2\repository\hsqldb\hsqldb\1.8.0.7\hsqldb-1.8.0.7.jar" org.hsqldb.Server -database.0 file:emarket.db -dbname.0 shark
+
+# to start SQL prompt
+java -jar "g:\Documents and Settings\username\.m2\repository\hsqldb\hsqldb\1.8.0.7\hsqldb-1.8.0.7.jar"  --rcFile ./sqltool-emarket.rc  localhost-sa
+
+# to execute SQL scripts
+java -jar "g:\Documents and Settings\username\.m2\repository\hsqldb\hsqldb\1.8.0.7\hsqldb-1.8.0.7.jar" --rcFile ./sqltool-emarket.rc  localhost-sa  create_tables_hsqldb.sql

@@ -1,0 +1,38 @@
+General Commands
+--------------------
+
+mysql> #create database RUNWAYDB character set = 'utf8';
+mysql> create database RUNWAYDB ;
+mysql> show databases;
+mysql> use RUNWAYDB;
+mysql> show tables;
+mysql> CREATE USER 'user'@'localhost' IDENTIFIED BY 'user_password';
+mysql> GRANT ALL PRIVILEGES ON *.* To 'user'@'localhost' WITH GRANT OPTION;
+mysql> CREATE USER 'user'@'%' IDENTIFIED BY 'user_password';
+mysql> GRANT ALL PRIVILEGES ON *.* To 'user'@'%' WITH GRANT OPTION;
+mysql> flush privileges;
+
+#
+# Open the 3306 port on local LAN
+#
+/sbin/iptables -A INPUT -i eth0 -s 192.168.0.0/24 -p tcp --destination-port 3306 -j ACCEPT
+
+### display indexes
+show index from TABLE_NAME
+
+### show database character encoding
+SHOW VARIABLES LIKE "character\_set\_database";
+
+Dev Testing
+-------------
+mysql -u root -p
+( password : rootpassword )
+
+mysql -u rsw -p
+( password : user_password )
+
+
+
+
+Production
+-------------

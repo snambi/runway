@@ -1,0 +1,5 @@
+# computer (and for which you have not changed the password for "sa").
+urlid localhost-sa
+url jdbc:hsqldb:hsql://localhost
+username sa
+password
