@@ -123,6 +123,7 @@
 		<property name="dataSource" ref="jdbcDataSource"/>
 	</bean>
 
+	
     <bean id="hibernateSessionFactory"
                 class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean" >
                 <property name="dataSource" ref="jdbcDataSource" />
@@ -140,7 +141,8 @@
                     </props>
                 </property>
     </bean>
- 
+ 	
+ 	 
  	<bean id="validator"
       class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean"/>  
  

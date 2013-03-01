@@ -69,118 +69,17 @@
 		<property name="supportedMediaTypes" value="application/json"></property>
 	</bean>
 	
-	<!-- 
-	<bean name="/home"
-		id="homePageController"
-		class="com.peoplebees.web.controllers.HomePageController"/>
 
-	<bean name="/myhome"
-		id="myHomePageController"
-		class="com.peoplebees.web.controllers.MyHomePageController">
-	</bean>
-	-->
-	
-	<!-- Users : login, signup, profile related -->
-	<!-- 
-	<bean name="/"
-		id="loginController"
-		class="com.peoplebees.web.controllers.user.LoginController">
-		<property name="formView" value="users/loginForm"/>
-		<property name="successView" value="account"/>
-		<property name="commandName" value="user" />
-		<property name="commandClass" value="com.peoplebees.user.domain.User"/>
-		<property name="validator">
-			<bean class="com.peoplebees.web.controllers.user.LoginFormValidator"/>
-		</property>
-	</bean>
-
-	<bean name="/logout"
-		id="logoutController"
-		class="com.peoplebees.web.controllers.user.LogoutController"/>
-
-	<bean name="/registerUser"
-		id="registerUserController"
-		class="com.peoplebees.web.controllers.user.RegisterUserController">
-		<property name="formView" value="users/registerUserForm"/>
-		<property name="successView" value="/userRegistered"/>
-		<property name="commandName" value="registerUser" />
-		<property name="commandClass" value="com.peoplebees.web.controllers.user.RegisterUser"/>
-		<property name="validator">
-			<bean class="com.peoplebees.web.controllers.user.RegisterUserFormValidator"/>
-		</property>
-	</bean>
-	
-	<bean name="/userRegistered"
-			id="registerUserSuccessController"
-			class="com.peoplebees.web.controllers.user.RegisterUserSuccessController" />
- 
-	<bean name="/editprofile"
-		id="editProfilePageController"
-		class="com.peoplebees.web.controllers.user.EditProfilePageController">
-				<property name="formView" value="users/editprofileForm"/>
-				<property name="successView" value="users/profileUpdated"/>
-				<property name="commandName" value="userProfile" />
-				<property name="commandClass" value="com.peoplebees.web.controllers.user.UserProfileData"/>
-	</bean>
-	
-	<bean name="/users"
-				id="userPageController"
-				class="com.peoplebees.web.controllers.user.UserPageController" />
-
-	
-	<bean name="/editpromotionSuccess"
-		id="editPromotionSuccessController"
-		class="com.peoplebees.web.controllers.marketing.EditPromotionSuccessController"/>
-
-
-	<bean name="/error"
-		id="emarketErrorPageController"
-		class="com.peoplebees.web.controllers.EmarketErrorPageController">
-	</bean>	
-     -->
 
 	<bean id="simpleUrlMapping"
 		class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
 		<property name="mappings">
-			<props>
-			
+			<props>			
 				<!-- 
 				<prop key="/">homePageController</prop>			
 				<prop key="/home">homePageController</prop>
 				<prop key="/myhome">myHomePageController</prop>
 				-->
-
-				
-				<!-- login related -->
-				<!-- 
-				<prop key="/login">loginController</prop>
-				<prop key="/">loginController</prop>
-				<prop key="/home">loginController</prop>
-				
-				<prop key="/signup">registerUserController</prop>
-				<prop key="/logout">logoutController</prop>
-				<prop key="/userRegistered">registerUserSuccessController</prop>
-				-->
-
-				<!--  users  -->
-				<!-- 
-				<prop key="/editprofile">editProfilePageController</prop>
-				<prop key="/users/*">userPageController</prop>
-				<prop key="/myprofile">myProfileController</prop>
-				-->
-				
-				<!--  static pages help/information related -->
-				<!-- 
-				<prop key="/contactus">contactUsController</prop>
-				<prop key="/aboutus">aboutUsController</prop>
-				<prop key="/tos">tosController</prop>
-				 -->
-				
-				<!--  error page -->
-				<!-- 
-				<prop key="/error">emarketErrorPageController</prop>
-				 -->
-
 			</props>
 		</property>
 	</bean>
