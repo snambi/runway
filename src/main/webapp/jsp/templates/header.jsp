@@ -8,12 +8,10 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </a>
-          <a class="brand" href="/"><icon class="icon-logo-medium"></icon>&nbsp;CafeCoders</a>
+          <a class="brand" href="/"><icon class="icon-logo-medium"></icon>&nbsp;Project Runway</a>
           <div class="nav-collapse">
             <ul class="nav">
               <li class="active"><a href="/"><i class="icon-home icon-aqua"></i>&nbsp;Home</a></li>
-              <li><a href="/cafes"><i class="icon-list icon-aqua"></i>&nbsp;Cafes</a></li>
-              <li><a href="/meetups"><i class="icon-tasks icon-aqua"></i>&nbsp;Meetups</a></li>
               <li><a href="/about"><i class="icon-info-sign icon-aqua"></i>&nbsp;About</a></li>
               <!-- 
               <li><a href="#contact">Contact</a></li>
