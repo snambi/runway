@@ -19,13 +19,7 @@
             </ul>
             <ul class="nav pull-right">
             	<li>
-            		<% if(session.getAttribute("twitter") == null) { %>
-            		<a href="/login"><i class="icon-twitter"></i> sign in with twitter</a>
-            		<% } else {
-            		User user = ((User) session.getAttribute("user"));
-            		%>
-            		<a href="http://twitter.com/<%=user.getScreenName() %>"><span class="profile-img"><img src="<%=user.getProfileImageURL() %>"/></span><%= user.getName() %></a>
-            		<% } %>
+            		<a href="/login"><i class="icon-twitter"></i> sign in</a>
             	</li>
             </ul>
           </div><!--/.nav-collapse -->

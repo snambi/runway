@@ -24,9 +24,10 @@
 <!-- Added by Nambi -->
 
 <!-- Bootstrap -->
-<link href="/bootstrap/2.0.2/css/bootstrap.min.css" rel="stylesheet" media="screen">
+<link href="/js/bootstrap/2.0.2/css/bootstrap.min.css" rel="stylesheet" media="screen">
+<link href="/js/bootstrap/2.0.2/css/bootstrap-responsive.css" rel="stylesheet">
 <script src="http://code.jquery.com/jquery.js"></script>
-<script src="/bootstrap/2.0.2/js/bootstrap.min.js"></script>
+<script src="/js/bootstrap/2.0.2/js/bootstrap.min.js"></script>
 
 <style type="text/css">
 body {
