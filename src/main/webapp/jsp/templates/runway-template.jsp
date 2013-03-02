@@ -18,9 +18,8 @@
 <!-- Added by Nambi -->
 <meta name="robots" content="index, follow, noarchive" />
 <meta name="googlebot" content="noarchive" />
-<meta name="google-site-verification"
-	content="taXffYEsxMjJzoLPkwToVQvHy5xu9R3mq0h1mlfDAOI" />
-<link rel="SHORTCUT ICON" href="/images/favicon.ico" />
+<meta name="google-site-verification" content="taXffYEsxMjJzoLPkwToVQvHy5xu9R3mq0h1mlfDAOI" />
+
 <!-- Added by Nambi -->
 
 <!-- Bootstrap -->
@@ -33,7 +32,6 @@
 body {
 	padding-top: 60px;
 	background-repeat: repeat;
-	background-image: url("/images/content_inner_bg_dark.png");
 }
 </style>
 

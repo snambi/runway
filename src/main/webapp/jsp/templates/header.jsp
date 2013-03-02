@@ -1,5 +1,5 @@
 
-<%@page import="twitter4j.User"%>
+
 <div class="navbar navbar-fixed-top">
       <div class="navbar-inner">
         <div class="container">
@@ -19,10 +19,10 @@
             </ul>
             <ul class="nav pull-right">
             	<li>
-            		<a href="/login"><i class="icon-twitter"></i> sign in</a>
+            		<a href="/login">sign in</a>
             	</li>
             </ul>
           </div><!--/.nav-collapse -->
         </div>
       </div>
-    </div>
+</div>

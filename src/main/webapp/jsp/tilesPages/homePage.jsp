@@ -1,6 +1,6 @@
 <!-- Main hero unit for a primary marketing message or call to action -->
 
-<div class="hero-unit">
+
 	<div class="container">
 		<div class="row">
 			<div class="span10">
@@ -12,7 +12,7 @@
 			</div>
 		</div>
 	</div>
-</div>
+
 
 
 	
